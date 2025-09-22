@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricing Predictor</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #001f3f;
+            /* Navy Blue */
+            color: #ffffff;
+            padding: 20px;
+        }
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+        
+        form {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #003366;
+            /* Slightly lighter navy */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        /* Grouping sections for clarity */
+        
+        .section {
+            margin-bottom: 20px;
+        }
+        
+        .section h3 {
+            margin-bottom: 10px;
+            color: #ffff66;
+            /* Yellowish for section headers */
+            font-size: 1.2em;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .input-field {
+            flex: 1 1 200px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input,
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+            font-size: 14px;
+        }
+        /* Gradient button from orange to yellow */
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(45deg, #ff7f00, #ffcc00);
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: linear-gradient(45deg, #e66f00, #e6b200);
+        }
+        
+        #result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2em;
+        }
+        
+        a {
+            color: #ffff66;
+            text-decoration: underline;
+        }
+        /* Responsive adjustments */
+        
+        @media(max-width: 820px) {
+            .input-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Pricing Predictor</h2>
+    <form id="predictionForm" onsubmit="return submitPrediction()">
+
+        <!-- Location Inputs -->
+        <div class="section">
+            <h3>Locations</h3>
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="origin">Origin:</label>
+                    <input type="text" id="origin" required />
+                </div>
+                <div class="input-field">
+                    <label for="destination">Destination:</label>
+                    <input type="text" id="destination" required />
+                </div>
+            </div>
+        </div>
+
+        <!-- Cargo & Urgency -->
+        <div class="section">
+            <h3>Cargo Details</h3>
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="cargoType">Cargo Type:</label>
+                    <select id="cargoType" required>
+            <option value="general">General</option>
+            <option value="perishable">Perishable</option>
+            <option value="hazardous">Hazardous</option>
+          </select>
+                </div>
+                <div class="input-field">
+                    <label for="urgency">Urgency:</label>
+                    <select id="urgency" required>
+            <option value="standard">Standard</option>
+            <option value="express">Express</option>
+            <option value="urgent">Urgent</option>
+          </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fuel, Weight, Volume, Distance (Distance removed) -->
+        <div class="section">
+            <h3>Specifications</h3>
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="fuelPrice">Fuel Price (USD/Litre):</label>
+                    <input type="number" id="fuelPrice" step="0.01" required />
+                </div>
+                <div class="input-field">
+                    <label for="weight">Weight (kg):</label>
+                    <input type="number" id="weight" step="0.01" required />
+                </div>
+                <div class="input-field">
+                    <label for="volume">Volume (m³):</label>
+                    <input type="number" id="volume" step="0.01" required />
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button with orange/yellow gradient -->
+        <button type="submit">Predict Price</button>
+    </form>
+
+    <div id="result"></div>
+
+    <div style="text-align:center; margin-top:20px;">
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>
+
+    <script>
+        function submitPrediction() {
+            const origin = document.getElementById('origin').value;
+            const destination = document.getElementById('destination').value;
+            const cargoType = document.getElementById('cargoType').value;
+            const urgency = document.getElementById('urgency').value;
+            const fuelPrice = parseFloat(document.getElementById('fuelPrice').value) || 0;
+            const weight = parseFloat(document.getElementById('weight').value) || 0;
+            const volume = parseFloat(document.getElementById('volume').value) || 0;
+
+            // Example calculation for demonstration
+            const basePrice = 150;
+            const cargoMultiplier = cargoType === 'perishable' ? 1.3 : cargoType === 'hazardous' ? 1.6 : 1;
+            const urgencyMultiplier = urgency === 'express' ? 1.2 : urgency === 'urgent' ? 1.5 : 1;
+
+            // Fuel cost impact
+            const fuelCostImpact = fuelPrice * 0.5; // arbitrary factor
+
+            // Weight and volume impact
+            const weightImpact = weight * 0.1;
+            const volumeImpact = volume * 20;
+
+            const predictedPrice = basePrice +
+                (cargoMultiplier * weightImpact) + // Using weight instead of distance
+                fuelCostImpact +
+                volumeImpact;
+
+            document.getElementById('result').innerHTML = `
+        <h3>Estimated Price from "${origin}" to "${destination}": $${predictedPrice.toFixed(2)}</h3>
+        <p>Scenario analysis can be added here.</p>
+      `;
+
+            return false; // prevent form submission
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FreightPriceZW Dashboard</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* Reset and base styles */
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+        }
+        /* Sidebar styles */
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100%;
+            background-color: #0d47a1;
+            /* navy blue */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 30px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        /* Logo/Icon */
+        
+        .sidebar .icon {
+            font-size: 3em;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+        /* Title */
+        
+        .sidebar h2 {
+            color: #fff;
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        /* Navigation menu */
+        
+        .menu {
+            list-style: none;
+            width: 100%;
+        }
+        
+        .menu li {
+            width: 100%;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .menu li:hover,
+        .menu li.active {
+            background-color: #039be5;
+            /* lighter blue on hover */
+        }
+        /* Links styled as buttons */
+        
+        .menu li a {
+            text-decoration: none;
+            color: #fff;
+            display: block;
+            width: 100%;
+            text-align: left;
+            font-weight: bold;
+        }
+        /* Main content styles */
+        
+        .main {
+            margin-left: 240px;
+            padding: 40px 30px;
+            background-color: #f4f4f4;
+            min-height: 100vh;
+            transition: margin-left 0.3s;
+        }
+        /* Header */
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            color: #333;
+        }
+        /* Buttons styles */
+        
+        .buttons-container {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        /* Colored Buttons */
+        
+        .btn-blue {
+            background-color: #0277bd;
+            /* blue */
+            color: #fff;
+        }
+        
+        .btn-orange {
+            background-color: #fb8c00;
+            /* orange */
+            color: #fff;
+        }
+        
+        .btn-yellow {
+            background-color: #fbc02d;
+            /* yellow */
+            color: #333;
+        }
+        /* Hover effects for buttons */
+        
+        .btn:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+        /* Page content styles */
+        
+        .page-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        /* Responsive adjustments */
+        
+        @media(max-width: 1024px) {
+            body {
+                font-size: 14px;
+            }
+            .sidebar {
+                width: 200px;
+            }
+            .main {
+                margin-left: 200px;
+            }
+        }
+        
+        @media(max-width: 600px) {
+            .sidebar {
+                width: 180px;
+            }
+            .main {
+                margin-left: 180px;
+                padding: 20px;
+            }
+            .buttons-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="icon">
+            <i class="fas fa-truck"></i>
+        </div>
+        <h2>FreightPriceZW</h2>
+        <ul class="menu">
+            <li class="active" onclick="showPage('Overview')"><a href="#">Overview</a></li>
+            <li><a href="pricing_predictor.html">Pricing Predictor</a></li>
+            <li onclick="showPage('Route Analysis')"><a href="#">Route Analysis</a></li>
+            <li onclick="showPage('Market Insights')"><a href="#">Market Insights</a></li>
+            <li onclick="showPage('Data Analytics')"><a href="#">Data Analytics</a></li>
+            <li onclick="logout()"><a href="#">Log Out</a></li>
+        </ul>
+    </div>
+
+    <!-- Main content -->
+    <div class="main">
+        <div class="header">
+            <h1 id="page-title">Overview</h1>
+            <div class="buttons-container">
+                <button class="btn btn-blue" onclick="showPage('Overview')">Overview</button>
+                <button class="btn btn-orange" onclick="showPage('Route Analysis')">Route Analysis</button>
+                <button class="btn btn-yellow" onclick="showPage('Market Insights')">Market Insights</button>
+                <button class="btn btn-blue" onclick="showPage('Data Analytics')">Data Analytics</button>
+                <button class="btn btn-orange" onclick="logout()">Log Out</button>
+            </div>
+        </div>
+
+        <div class="page-content" id="page-content">
+            <h2>Welcome to the Dashboard Overview</h2>
+            <p>This is the overview page with real-time insights.</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        function showPage(page) {
+            document.getElementById('page-title').innerText = page;
+            const contentDiv = document.getElementById('page-content');
+
+            switch (page) {
+                case 'Overview':
+                    contentDiv.innerHTML = `
+                        <h2>Welcome to the Dashboard Overview</h2>
+                        <p>This is the overview page with real-time insights.</p>`;
+                    break;
+                case 'Route Analysis':
+                    contentDiv.innerHTML = `
+                        <h2>Route Analysis</h2>
+                        <p>Analyze different routes and their efficiencies.</p>`;
+                    break;
+                case 'Market Insights':
+                    contentDiv.innerHTML = `
+                        <h2>Market Insights</h2>
+                        <p>Market trends and analytics here.</p>`;
+                    break;
+                case 'Data Analytics':
+                    contentDiv.innerHTML = `
+                        <h2>Data Analytics</h2>
+                        <p>Data-driven insights and reports.</p>`;
+                    break;
+                default:
+                    // For "Pricing Predictor" link, no dynamic content needed
+                    break;
+            }
+        }
+
+        function logout() {
+            alert('Logging out...');
+            window.location.href = '/logout'; // Adjust as needed
+        }
+    </script>
+</body>
+
+</html>

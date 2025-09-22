@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <style>
+        /* Body background with red and yellow gradient */
+        
+        body {
+            margin: 0;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff4d4d, #ffff66);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Heading styling */
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2em;
+            color: #333;
+        }
+        /* Style for the login container */
+        
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        /* Title style */
+        
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        /* Labels styling */
+        
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        /* Input fields styling */
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        }
+        /* Buttons styling */
+        
+        .btn {
+            width: 100%;
+            padding: 14px 20px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        /* Primary login button */
+        
+        .btn-login {
+            background-color: #007bff;
+            color: #fff;
+        }
+        
+        .btn-login:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        /* Register button style */
+        
+        .btn-register {
+            background-color: #6c757d;
+            /* gray color */
+            color: #fff;
+        }
+        
+        .btn-register:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+        /* Optional focus styles */
+        
+        .btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Heading -->
+    <div class="header">
+        <h1>Zimbabwe Freight Pricing Intelligence</h1>
+    </div>
+
+    <!-- Login container -->
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required />
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required />
+
+            <button type="submit" class="btn btn-login">Login</button>
+        </form>
+        <!-- Register button -->
+        <form method="GET" action="/register" style="margin-top: 15px;">
+            <button type="submit" class="btn btn-register">Register</button>
+        </form>
+    </div>
+</body>
+
+</html>
